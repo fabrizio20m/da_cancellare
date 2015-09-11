@@ -7,10 +7,9 @@ import it.stats.batch.util.ConfigutationConstants;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author fabrizio
@@ -18,9 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class JsoupConnectProcessor implements Processor 
 {
-	public static String REF = "JsoupConnectProcessor";
-	
-	private Logger logger = LoggerFactory.getLogger(JsoupConnectProcessor.class);
+	public static String REF = JsoupConnectProcessor.class.getSimpleName();
 	
 	public void process(Exchange exchange) throws Exception 
 	{
@@ -29,13 +26,16 @@ public class JsoupConnectProcessor implements Processor
 		int i=0;
 		do
 		{
-			document = Jsoup.connect(url).timeout(0).get();
+			Connection connection = Jsoup.connect(url).timeout(0);
+			Connection.Response response = connection.execute();
+			if(response.statusCode() == 200)
+			{
+				document = connection.get();
+			}
 			i++;
 		}
-		while(document == null && i<ConfigutationConstants.MAX_CONNECT_ATTEMPTS);
+		while(document == null && i < ConfigutationConstants.MAX_CONNECT_ATTEMPTS);
 		exchange.getIn().setBody(document);
-		
-		logger.info("----> ENTRO "+document);
 	}
 
 }

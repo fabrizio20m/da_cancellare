@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property name="NBD_REST_LOG_HOME" value="/var/share/nbd-rest/logs" />
+	
+	<!-- Standard out appender -->
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%X{MDC_SESSION_ID}][%X{MDC_REQUEST_ID}][%X{MDC_GUID}][%X{MDC_COD_APPLICAZIONE}] %d{ISO8601}\t%-5level %logger - %msg %n</pattern>
+	    	</layout>
+	</appender>
+
+	<!--Daily rolling file appender for platform logging -->
+	<!--<appender name="log-platform" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		
+		<file>${NBD_REST_LOG_HOME}/platform-${MWA_ENV}-${weblogic.Name}.log</file>
+		
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${NBD_REST_LOG_HOME}/platform-${MWA_ENV}-${weblogic.Name}.log.%d{yyyy-MM-dd-HH}.%i</FileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>500MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%X{MDC_SESSION_ID}][%X{MDC_REQUEST_ID}][%X{MDC_GUID}][%X{MDC_COD_APPLICAZIONE}] %d{ISO8601}\t%-5level %logger - %msg %n</pattern>
+	    </layout>
+
+	</appender>-->
+	
+	<!-- Main rolling file appender for NBD services-->
+	<appender name="log-main" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		
+		<file>${NBD_REST_LOG_HOME}/nbd-rest-${MWA_ENV}-${weblogic.Name}.log</file>
+		
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${NBD_REST_LOG_HOME}/nbd-rest-${MWA_ENV}-${weblogic.Name}.log.%d{yyyy-MM-dd-HH}.%i</FileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>500MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>			
+		</rollingPolicy>
+		
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%X{MDC_SESSION_ID}][%X{MDC_REQUEST_ID}][%X{MDC_GUID}][%X{MDC_COD_APPLICAZIONE}] %d{ISO8601}\t%-5level %logger - %msg %n</pattern>
+	    </layout>
+	</appender>
+	
+	<!-- log performance -->
+	<appender name="log-performance" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${NBD_REST_LOG_HOME}/nbd-performance-${MWA_ENV}-${weblogic.Name}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${NBD_REST_LOG_HOME}/nbd-performance-${MWA_ENV}-${weblogic.Name}.log.%d{yyyy-MM-dd-HH}.%i</FileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>500MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>			
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%X{MDC_SESSION_ID}][%X{MDC_REQUEST_ID}][%X{MDC_GUID}][%X{MDC_COD_APPLICAZIONE}] %d{ISO8601}\t%-5level %logger - %msg %n</pattern>
+		</layout>
+	</appender>
+	
+	<!-- log performance alert -->
+	<appender name="log-performance-alert" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${NBD_REST_LOG_HOME}/nbd-performance-alert-${MWA_ENV}-${weblogic.Name}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${NBD_REST_LOG_HOME}/nbd-performance-alert-${MWA_ENV}-${weblogic.Name}.log.%d{yyyy-MM-dd-HH}.%i</FileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>500MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>			
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%X{MDC_SESSION_ID}][%X{MDC_REQUEST_ID}][%X{MDC_GUID}][%X{MDC_COD_APPLICAZIONE}] %d{ISO8601}\t%-5level %logger - %msg %n</pattern>
+		</layout>
+	</appender>
+	
+	<!-- log error -->
+	<appender name="log-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${NBD_REST_LOG_HOME}/nbd-error-${MWA_ENV}-${weblogic.Name}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${NBD_REST_LOG_HOME}/nbd-error-${MWA_ENV}-${weblogic.Name}.log.%d{yyyy-MM-dd-HH}.%i</FileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>500MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>			
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%X{MDC_SESSION_ID}][%X{MDC_REQUEST_ID}][%X{MDC_GUID}][%X{MDC_COD_APPLICAZIONE}] %d{ISO8601}\t%-5level %logger - %msg %n</pattern>
+		</layout>
+	</appender>
+	
+	<!-- log homepage -->
+	<appender name="log-homepage" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${NBD_REST_LOG_HOME}/nbd-homepage-${MWA_ENV}-${weblogic.Name}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${NBD_REST_LOG_HOME}/nbd-homepage-${MWA_ENV}-${weblogic.Name}.log.%d{yyyy-MM-dd-HH}.%i</FileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>500MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>			
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%X{MDC_SESSION_ID}][%X{MDC_REQUEST_ID}][%X{MDC_GUID}][%X{MDC_COD_APPLICAZIONE}] %d{ISO8601}\t%-5level %logger - %msg %n</pattern>
+		</layout>
+	</appender>
+	
+	<!-- log performance homepage -->
+	<appender name="log-performance-homepage" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${NBD_REST_LOG_HOME}/nbd-performance-homepage-${MWA_ENV}-${weblogic.Name}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${NBD_REST_LOG_HOME}/nbd-performance-homepage-${MWA_ENV}-${weblogic.Name}.log.%d{yyyy-MM-dd-HH}.%i</FileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>500MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>			
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%X{MDC_SESSION_ID}][%X{MDC_REQUEST_ID}][%X{MDC_GUID}][%X{MDC_COD_APPLICAZIONE}] %d{ISO8601}\t%-5level %logger - %msg %n</pattern>
+		</layout>
+	</appender>	
+	
+	<!-- log performance alert homepage -->
+	<appender name="log-performance-alert-homepage" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${NBD_REST_LOG_HOME}/nbd-performance-alert-homepage-${MWA_ENV}-${weblogic.Name}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${NBD_REST_LOG_HOME}/nbd-performance-alert-homepage-${MWA_ENV}-${weblogic.Name}.log.%d{yyyy-MM-dd-HH}.%i</FileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>500MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>			
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%X{MDC_SESSION_ID}][%X{MDC_REQUEST_ID}][%X{MDC_GUID}][%X{MDC_COD_APPLICAZIONE}] %d{ISO8601}\t%-5level %logger - %msg %n</pattern>
+		</layout>
+	</appender>		
+	
+	<!-- Async appenders based on the file -->
+	<!--<appender name="async-log-platform" class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>500</queueSize>
+		<discardingThreshold>0</discardingThreshold>
+		<appender-ref ref="log-platform" />
+	</appender>-->
+	
+	<appender name="async-log-main" class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>500</queueSize>
+		<discardingThreshold>0</discardingThreshold>
+		<appender-ref ref="log-main" />
+	</appender>
+	
+	<appender name="async-log-performance" class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>500</queueSize>
+		<discardingThreshold>0</discardingThreshold>
+		<appender-ref ref="log-performance" />
+	</appender>
+	
+	<appender name="async-log-performance-alert" class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>500</queueSize>
+		<discardingThreshold>0</discardingThreshold>
+		<appender-ref ref="log-performance-alert" />
+	</appender>
+	
+	<appender name="async-log-error" class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>500</queueSize>
+		<discardingThreshold>0</discardingThreshold>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<appender-ref ref="log-error" />
+	</appender>
+
+	<appender name="async-log-homepage" class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>500</queueSize>
+		<discardingThreshold>0</discardingThreshold>		
+		<appender-ref ref="log-homepage" />
+	</appender>
+	
+	<appender name="async-log-performance-homepage" class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>500</queueSize>
+		<discardingThreshold>0</discardingThreshold>		
+		<appender-ref ref="log-performance-homepage" />
+	</appender>	
+	
+	<appender name="async-log-performance-alert-homepage" class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>500</queueSize>
+		<discardingThreshold>0</discardingThreshold>		
+		<appender-ref ref="log-performance-alert-homepage" />
+	</appender>		
+	
+	<!-- Loggers -->
+	
+	<!-- Logger for platform -->
+	<!-- TBD 
+	<logger name="it.ubi.nim.classloading" level="DEBUG" additivity="false">
+		<appender-ref ref="async-log-platform" />
+	</logger>
+	
+	<logger name="it.ubi.nim.platform" level="DEBUG" additivity="false">
+		<appender-ref ref="async-log-platform" />
+	</logger>
+	
+	<logger name="it.ubi.nim.proxy" level="DEBUG" additivity="false">
+		<appender-ref ref="async-log-platform" />
+	</logger>
+	
+	<logger name="it.ubi.nim.utils" level="DEBUG" additivity="false">
+		<appender-ref ref="async-log-platform" />
+	</logger> -->
+	
+	<!-- Logger for Camel Framework -->
+	<logger name="org.apache.camel" level="INFO" additivity="false">
+		<appender-ref ref="async-log-main" />
+	</logger>
+	
+	<!-- Logger for Camel asset -->
+	<logger name="it.ubi.nim.camel" level="INFO" additivity="false">
+		<appender-ref ref="async-log-main" />
+	</logger>
+
+	<!-- Logger homepage (query, risultati...) -->
+	<logger name="it.ubi.services.nbd.route.homepage" level="INFO" additivity="false">
+		<appender-ref ref="async-log-homepage" />
+	</logger>
+	
+	<logger name="it.ubi.fidi" level="INFO" additivity="false">
+		<appender-ref ref="async-log-homepage" />
+	</logger>
+	
+	<!-- Logger for Performance management -->
+	<logger name="it.ubi.nim.util.common.logging.PerformanceMonitor" level="INFO" additivity="false">
+		<appender-ref ref="async-log-performance" />
+	</logger>
+	
+	<!-- Logger for Performance alert management -->
+	<logger name="it.ubi.nim.util.common.logging.PerformanceMonitorAlert" level="INFO" additivity="false">
+		<appender-ref ref="async-log-performance-alert" />
+	</logger>
+	
+	<!-- Logger for Performance Homepage management -->
+	<logger name="it.ubi.services.nbd.route.homepage.HomepageBaseRoutesImplPerformance" level="INFO" additivity="false">
+		<appender-ref ref="async-log-performance-homepage" />
+	</logger>	
+	
+	<!-- Logger for Performance Alert Homepage management -->
+	<logger name="it.ubi.services.nbd.route.homepage.HomepageBaseRoutesImplPerformanceAlert" level="INFO" additivity="false">
+		<appender-ref ref="async-log-performance-alert-homepage" />
+	</logger>	
+
+	<!-- Default logger -->
+	<root level="INFO">
+		<appender-ref ref="async-log-main" />
+		<appender-ref ref="async-log-error" />
+	</root>
+
+</configuration>

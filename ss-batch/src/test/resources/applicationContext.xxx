@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
+	license agreements. See the NOTICE file distributed with this work for additional 
+	information regarding copyright ownership. The ASF licenses this file to 
+	You under the Apache License, Version 2.0 (the "License"); you may not use 
+	this file except in compliance with the License. You may obtain a copy of 
+	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:cxf="http://camel.apache.org/schema/cxf"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:cxfcore="http://cxf.apache.org/core"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
+       http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+       http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+    ">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml"/>
+	
+    <import resource="classpath:camel/camel-context.xml" />
+    <import resource="classpath:camel/broker.xml" />
+    
+    <import resource="classpath:spring/embedded-db.xml" />
+
+	<context:component-scan base-package="it.fabrizio.services"/>
+	<context:property-placeholder location="classpath:properties/deployment/${ENV_VAR}-application.properties" />
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
+	
+	<!-- JSON Provider -->
+	<bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+	
+
+    
+
+
+    <!-- 			  -->
+    <!-- IMPL - START -->
+    <!-- 			  -->
+
+	<!-- Bean impl per PRESENTATION REST -->
+	<bean id="BonificiServiceRest" class="it.fabrizio.services.bonifici.presentation.rest.BonificiServiceImpl"/>
+	
+	<!-- Bean impl per BUSINESS -->
+	<bean id="BonificiServiceManager" class="it.fabrizio.services.bonifici.business.BonificiServiceManager"/>
+	
+	<!-- Server per REST -->
+	<jaxrs:server id="restServer" address="/rest">
+        <jaxrs:serviceBeans>
+            <ref bean="BonificiServiceRest"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+			<ref bean="jsonProvider"/>
+		</jaxrs:providers>
+    </jaxrs:server>
+    
+    <!-- 			  -->
+    <!-- IMPL - END   -->
+    <!-- 			  -->
+    
+    
+    
+    
+    
+    
+    <!-- 			  -->
+    <!-- MOCK - START -->
+    <!-- 			  -->
+    
+    <!-- Bean impl per MOCK -->
+	<bean id="BonificiServiceMock" class="it.fabrizio.services.bonifici.presentation.rest.mock.BonificiServiceImplMock"/>
+    
+    <!-- Server per MOCK -->
+	<jaxrs:server id="mockServer" address="/mock">
+        <jaxrs:serviceBeans>
+            <ref bean="BonificiServiceMock"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+			<ref bean="jsonProvider"/>
+		</jaxrs:providers>
+    </jaxrs:server>
+    
+    <!-- 			  -->
+    <!-- MOCK - END   -->
+    <!-- 			  -->
+    
+    
+    
+    
+    <!--						  -->
+    <!-- CXF INTERCEPTORS - START -->
+    <!--						  -->
+    
+	<bean id="abstractLoggingInterceptor" class="org.apache.cxf.interceptor.AbstractLoggingInterceptor" abstract="true" />
+    <bean id="loggingInInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor" parent="abstractLoggingInterceptor" />
+    <bean id="loggingOutInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor" parent="abstractLoggingInterceptor"/>
+    
+	<cxfcore:bus>
+        <cxfcore:inInterceptors>
+            <ref bean="loggingInInterceptor" />
+        </cxfcore:inInterceptors>
+        <cxfcore:outInterceptors>
+            <ref bean="loggingOutInterceptor" />
+        </cxfcore:outInterceptors>
+        <cxfcore:outFaultInterceptors>
+            <ref bean="loggingOutInterceptor" />
+        </cxfcore:outFaultInterceptors>
+        <cxfcore:inFaultInterceptors>
+            <ref bean="loggingInInterceptor" />
+        </cxfcore:inFaultInterceptors>
+    </cxfcore:bus>
+    
+    <!--						  -->
+    <!-- CXF INTERCEPTORS - END   -->
+    <!--						  -->  
+
+</beans>

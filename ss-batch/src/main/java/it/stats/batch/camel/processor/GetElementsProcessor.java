@@ -14,7 +14,7 @@ import org.jsoup.nodes.Document;
  */
 public class GetElementsProcessor implements Processor 
 {
-	public static String REF = "GetElementsProcessor";
+	public static String REF = GetElementsProcessor.class.getSimpleName();
 	
 	public static String GET_ELEMENT_KEY = "getElementKey";
 	public static String CLASSNAME_KEY = "classname";
