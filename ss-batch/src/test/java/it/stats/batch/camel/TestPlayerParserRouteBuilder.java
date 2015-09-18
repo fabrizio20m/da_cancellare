@@ -3,10 +3,6 @@
  */
 package it.stats.batch.camel;
 
-import it.stats.batch.util.ParserConstants;
-
-import java.math.BigInteger;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
@@ -21,20 +17,18 @@ public class TestPlayerParserRouteBuilder extends TestBaseRouteBuilder
 {
 	private Logger logger = LoggerFactory.getLogger(TestPlayerParserRouteBuilder.class); 
 	
-	private BigInteger playerId = BigInteger.valueOf(122);
+	private String playerId = "126";
 
 	@Override
 	protected Object getBody() 
 	{
-		return ParserConstants.SW_SITE+"/players/1/"+playerId;
+		return playerId;
 	}
 
 	@Override
 	protected Map<String, Object> getHeaders() 
 	{
-		Map<String, Object> headers = new HashMap<String, Object>();
-		headers.put(PlayerParserRouteBuilder.PLAYER_ID, playerId);
-		return headers;
+		return null;
 	}
 
 	@Override
