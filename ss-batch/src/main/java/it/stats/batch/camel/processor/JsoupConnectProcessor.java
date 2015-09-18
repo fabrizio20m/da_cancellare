@@ -3,7 +3,7 @@
  */
 package it.stats.batch.camel.processor;
 
-import it.stats.batch.util.ConfigutationConstants;
+import it.stats.batch.util.ConfigurationConstants;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -34,7 +34,7 @@ public class JsoupConnectProcessor implements Processor
 			}
 			i++;
 		}
-		while(document == null && i < ConfigutationConstants.MAX_CONNECT_ATTEMPTS);
+		while(document == null && i < ConfigurationConstants.MAX_CONNECT_ATTEMPTS);
 		exchange.getIn().setBody(document);
 	}
 

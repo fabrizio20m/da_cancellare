@@ -3,18 +3,19 @@
  */
 package it.stats.batch.camel;
 
-import it.stats.util.serialization.SerializationUtil;
-
 import java.util.Map;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.test.spring.CamelSpringTestSupport;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.thoughtworks.xstream.XStream;
 
 /**
  * @author A90C
@@ -23,6 +24,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public abstract class TestBaseRouteBuilder extends CamelSpringTestSupport
 {
 	protected Logger logger = LoggerFactory.getLogger(this.getClass()); 
+	
+	protected XStream xs = new XStream();
 	
 	@Override
 	protected AbstractApplicationContext createApplicationContext() 
@@ -61,16 +64,16 @@ public abstract class TestBaseRouteBuilder extends CamelSpringTestSupport
 			exchange = pt.send(getUri(), exchange);
 
 			logger.info("<<< --------------- RECEIVE --------------- <<<");
-			logger.info("<<< RECEIVE - Exchange body "+SerializationUtil.marshallXML(exchange.getIn().getBody()));
+			logger.info("<<< RECEIVE - Exchange body "+xs.toXML(exchange.getIn().getBody()));
 			logger.info(">>> RECEIVE - Exchange properties "+exchange.getProperties());
 			if(exchange.getException() != null)
 			{
-				logger.error("<<< RECEIVE - Exchange exception "+exchange.getException());
+				logger.error("<<< RECEIVE - Exchange exception "+ExceptionUtils.getStackTrace(exchange.getException()));
 			}
 		}
 		catch (Exception e)
 		{
-			logger.error("Exception "+e);
+			logger.error("=== testRoute - Exception "+e);
 		}
 		finally
 		{
