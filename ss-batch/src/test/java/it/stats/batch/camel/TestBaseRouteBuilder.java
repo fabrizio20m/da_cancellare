@@ -77,6 +77,8 @@ public abstract class TestBaseRouteBuilder extends CamelSpringTestSupport
 		}
 		finally
 		{
+			Thread.sleep(30000L);
+			
 			ctx.stop();
 		}
     }

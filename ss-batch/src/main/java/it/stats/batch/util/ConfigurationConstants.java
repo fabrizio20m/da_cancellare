@@ -9,7 +9,7 @@ package it.stats.batch.util;
  */
 public class ConfigurationConstants 
 {
-	public static String UPSERT_ERROR_FOLDER = "/Progetti/Fabrizio/errors/upsert";
+	public static String SAVE_ERROR_FOLDER = "/Progetti/Fabrizio/errors/save";
 	
 	public static int MAX_CONNECT_ATTEMPTS = 3;
 }

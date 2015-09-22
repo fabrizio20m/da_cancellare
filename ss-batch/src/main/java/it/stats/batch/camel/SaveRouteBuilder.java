@@ -20,7 +20,7 @@ public class SaveRouteBuilder extends RouteBuilder
 	@Override
 	public void configure() throws Exception 
 	{
-		errorHandler(deadLetterChannel(SaveErrorsRouteBuilder.UPSERT_ERRORS_URI));
+		errorHandler(deadLetterChannel(SaveErrorsRouteBuilder.SAVE_ERRORS_URI));
 		
 		from(UPSERT_URI)
 		.routeId(SaveRouteBuilder.class.getSimpleName())
