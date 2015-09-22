@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.stats.batch.camel.jdbc.bean;
+package it.stats.batch.camel.bean;
 
 import it.stats.batch.util.FieldParam;
 

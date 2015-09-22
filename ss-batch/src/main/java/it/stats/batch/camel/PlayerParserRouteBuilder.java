@@ -3,9 +3,7 @@
  */
 package it.stats.batch.camel;
 
-import it.stats.batch.camel.jdbc.bean.BeanType;
-import it.stats.batch.camel.jdbc.bean.PlayerBean;
-import it.stats.batch.camel.jdbc.bean.UpsertBean;
+import it.stats.batch.camel.bean.PlayerBean;
 import it.stats.batch.camel.processor.GetChildElementProcessor;
 import it.stats.batch.camel.processor.GetElementsProcessor;
 import it.stats.batch.camel.processor.SetFieldsProcessor;
@@ -151,7 +149,6 @@ public class PlayerParserRouteBuilder extends RouteBuilder
 			public void process(Exchange exchange) throws Exception 
 			{
 				exchange.getIn().setBody(exchange.getProperty(PLAYER));
-				exchange.getIn().setHeader(UpsertBean.META_BEAN_NAME_KEY, BeanType.PLAYER);
 			}
 		})
 		.to(UpsertRouteBuilder.UPSERT_URI)
