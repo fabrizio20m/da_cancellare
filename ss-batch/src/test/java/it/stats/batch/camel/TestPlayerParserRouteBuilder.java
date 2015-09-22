@@ -17,7 +17,7 @@ public class TestPlayerParserRouteBuilder extends TestBaseRouteBuilder
 {
 	private Logger logger = LoggerFactory.getLogger(TestPlayerParserRouteBuilder.class); 
 	
-	private String playerId = "126";
+	private String playerId = "128";
 
 	@Override
 	protected Object getBody() 

@@ -22,6 +22,7 @@ public class DispatchPlayerParserRouteBuilder extends RouteBuilder
 	public void configure() throws Exception 
 	{
 		from(DISPATCH_PLAYER_PARSER_URI)
+		.routeId(DispatchPlayerParserRouteBuilder.class.getSimpleName())
 		.split(simple("${in.header.playerIds}"))
 		.streaming()
 		.parallelProcessing()

@@ -3,26 +3,28 @@
  */
 package it.stats.batch.camel;
 
+import it.stats.batch.camel.mondb.MDBSavePlayerRouteBuilder;
+
 import java.util.Map;
 
 import org.junit.Test;
 
 /**
- * @author A90C
+ * @author fabrizio
  *
  */
-public class TestInsertRouteBuilder extends TestBaseRouteBuilder 
+public class TestSavePlayerRouteBuilder extends TestBaseRouteBuilder
 {
 	@Override
 	protected String getUri() 
 	{
-		return "direct:monInsert";
+		return MDBSavePlayerRouteBuilder.SAVE_PLAYER_URI;
 	}
-
+	
 	@Override
 	protected Object getBody() 
 	{
-		return "{ \"name\": \"Fabrizio\" }";
+		return "{ _id: 1, name: \"Fabrizio\", surname: \"Mastropaolo\" }";
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class TestInsertRouteBuilder extends TestBaseRouteBuilder
 	{
 		return null;
 	}
-	
+    
 	@Test
 	public void testRoute() throws Exception
 	{

@@ -15,6 +15,7 @@ public class GetDocumentRouteBuilder extends RouteBuilder
 	public void configure() throws Exception 
 	{
 		from(GET_DOCUMENT_URI)
+		.routeId(GetDocumentRouteBuilder.class.getSimpleName())
 		.processRef(JsoupConnectProcessor.REF)
 		.end();
 	}

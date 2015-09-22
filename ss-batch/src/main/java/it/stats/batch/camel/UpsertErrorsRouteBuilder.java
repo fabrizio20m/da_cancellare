@@ -20,7 +20,9 @@ public class UpsertErrorsRouteBuilder extends RouteBuilder
 	public void configure() throws Exception 
 	{
 		from(UPSERT_ERRORS_URI)
-		.log(LoggingLevel.INFO, UPSERT_ERRORS_URI+": ${body}")
+		.routeId(UpsertErrorsRouteBuilder.class.getSimpleName())
+		.log(LoggingLevel.ERROR, UPSERT_ERRORS_URI+"UPSERT Body\t${body}")
+		.log(LoggingLevel.ERROR, UPSERT_ERRORS_URI+"UPSERT Exception\t${exception}")
 		.to("file:"+ConfigurationConstants.UPSERT_ERROR_FOLDER+"?readLock=fileLock")
 		.end();
 	}

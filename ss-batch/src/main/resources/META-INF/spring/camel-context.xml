@@ -22,33 +22,48 @@
     ">
     
     <!-- ROUTE BUILDER CAMEL - START -->
-	<camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+	<camelContext id="camel" xmlns="http://camel.apache.org/schema/spring" useMDCLogging="true">
 		<propertyPlaceholder id="properties" location="classpath:properties/deployment/${ENV_VAR}-application.properties" />
 	
 		<routeBuilder ref="GetDocumentRouteBuilder"/>
 		<routeBuilder ref="UpsertRouteBuilder"/>
-		<routeBuilder ref="JDBCInterceptorRouteBuilder"/>
 		<routeBuilder ref="PlayerParserRouteBuilder"/>
 		<routeBuilder ref="DispatchPlayerParserRouteBuilder"/>
 		<routeBuilder ref="UpsertErrorsRouteBuilder"/>
+		<routeBuilder ref="MDBSavePlayerRouteBuilder"/>
+		
+		<dataFormats>
+			<json id="mapJson" library="Jackson" unmarshalTypeName="java.util.HashMap" />
+		</dataFormats>
 		
 	</camelContext>
 	
+<!-- 	<bean id="gson" class="org.apache.camel.component.gson.GsonDataFormat"/> -->
+	
 	<bean id="GetDocumentRouteBuilder" class="it.stats.batch.camel.GetDocumentRouteBuilder" />
 	<bean id="UpsertRouteBuilder" class="it.stats.batch.camel.UpsertRouteBuilder" />
-	<bean id="JDBCInterceptorRouteBuilder" class="it.stats.batch.camel.JDBCInterceptorRouteBuilder" />
 	<bean id="PlayerParserRouteBuilder" class="it.stats.batch.camel.PlayerParserRouteBuilder" />
 	<bean id="DispatchPlayerParserRouteBuilder" class="it.stats.batch.camel.DispatchPlayerParserRouteBuilder" />
 	<bean id="UpsertErrorsRouteBuilder" class="it.stats.batch.camel.UpsertErrorsRouteBuilder" />
+	<bean id="MDBSavePlayerRouteBuilder" class="it.stats.batch.camel.mondb.MDBSavePlayerRouteBuilder" />
 	
 	<bean id="GetElementsProcessor" class="it.stats.batch.camel.processor.GetElementsProcessor" />
 	<bean id="JsoupConnectProcessor" class="it.stats.batch.camel.processor.JsoupConnectProcessor" />
 	<bean id="GetChildElementProcessor" class="it.stats.batch.camel.processor.GetChildElementProcessor" />
 	<bean id="SetFieldsProcessor" class="it.stats.batch.camel.processor.SetFieldsProcessor" />
 	
-	<bean id="PlayerBean" class="it.stats.batch.camel.jdbc.bean.PlayerBean" />
+	<bean id="UpsertBean" class="it.stats.batch.camel.jdbc.bean.UpsertBean" />
 	
     <!-- ROUTE BUILDER CAMEL - END   -->
+    
+    <!-- MONGODB - START -->
+    <bean id="mongoBean" class="com.mongodb.Mongo">
+<!--         <constructor-arg name="host" value="${mongodb.host}" /> -->
+        <constructor-arg name="host" value="localhost" />
+<!--         <constructor-arg name="port" value="${mongodb.port}" /> -->
+        <constructor-arg name="port" value="27017" />
+    </bean>
+    <!-- MONGODB - END -->
     
 	<!-- SW DATASOURCE - START -->
     <bean id="swDatasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">

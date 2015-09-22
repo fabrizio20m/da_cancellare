@@ -3,6 +3,8 @@
  */
 package it.stats.batch.camel;
 
+import it.stats.batch.camel.mondb.MDBSavePlayerRouteBuilder;
+
 import org.apache.camel.builder.RouteBuilder;
 
 /**
@@ -13,7 +15,7 @@ public class UpsertRouteBuilder extends RouteBuilder
 {
 	public static String UPSERT_URI = "seda:upsert";
 	
-	public static String BEAN_NAME_KEY = "beanName";
+//	private Logger logger = LoggerFactory.getLogger(UpsertRouteBuilder.class); 
 	
 	@Override
 	public void configure() throws Exception 
@@ -21,9 +23,8 @@ public class UpsertRouteBuilder extends RouteBuilder
 		errorHandler(deadLetterChannel(UpsertErrorsRouteBuilder.UPSERT_ERRORS_URI));
 		
 		from(UPSERT_URI)
-		.transacted()
-		.to("bean:${header.beanName}?method=upsert")
-		.to("jdbc:swDatasource")
+		.routeId(UpsertRouteBuilder.class.getSimpleName())
+		.to(MDBSavePlayerRouteBuilder.SAVE_PLAYER_URI)
 		.end();
 	}
 

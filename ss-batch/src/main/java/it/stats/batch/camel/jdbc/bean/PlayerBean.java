@@ -3,7 +3,7 @@
  */
 package it.stats.batch.camel.jdbc.bean;
 
-import java.util.Map;
+import it.stats.batch.util.FieldParam;
 
 /**
  * @author A90C
@@ -11,14 +11,42 @@ import java.util.Map;
  */
 public class PlayerBean 
 {
-	private static String UPSERT_PLAYER = "SELECT sw.upsert_player(";
+	public static FieldParam[] PLAYER_FIELDS = new PlayerFields[] {
+		new PlayerFields("Player Id", "_id")
+		, new PlayerFields("First name", "name")
+		, new PlayerFields("Last name", "surname")
+		, new PlayerFields("Nationality", "nationality")
+		, new PlayerFields("Date of birth", "birth_date")
+		, new PlayerFields("Country of birth", "birth_country")
+		, new PlayerFields("Place of birth", "birth_place")
+		, new PlayerFields("Position", "position")
+		, new PlayerFields("Height", "height")
+		, new PlayerFields("Weight", "weight")
+		, new PlayerFields("Foot", "foot")
+		, new PlayerFields("Picture URL", "picture_url")
+//		, new PlayerFields("Picture", "picture")
+	};
 	
-	public String upsert(Map<String, Object> map)
+	private static class PlayerFields implements FieldParam
 	{
-		StringBuilder sb = new StringBuilder(UPSERT_PLAYER);
-		sb.append(map.get("playerId"));
-		sb.append(", '"+map.get("name")+"'");
-		sb.append(", '"+map.get("surname")+"')");
-		return sb.toString();
+		private PlayerFields(String fieldPageKey, String fieldName)
+		{
+			this.fieldName = fieldName;
+			this.fieldPageKey = fieldPageKey;
+		}
+		
+		private String fieldName;
+		
+		private String fieldPageKey;
+
+		public String getFieldName() 
+		{
+			return fieldName;
+		}
+
+		public String getFieldPageKey() 
+		{
+			return fieldPageKey;
+		}
 	}
 }

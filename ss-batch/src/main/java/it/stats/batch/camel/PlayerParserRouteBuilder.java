@@ -3,16 +3,13 @@
  */
 package it.stats.batch.camel;
 
+import it.stats.batch.camel.jdbc.bean.BeanType;
 import it.stats.batch.camel.jdbc.bean.PlayerBean;
+import it.stats.batch.camel.jdbc.bean.UpsertBean;
 import it.stats.batch.camel.processor.GetChildElementProcessor;
 import it.stats.batch.camel.processor.GetElementsProcessor;
 import it.stats.batch.camel.processor.SetFieldsProcessor;
-import it.stats.batch.util.FieldParam;
 import it.stats.batch.util.ParserConstants;
-import it.stats.batch.util.ParserUtil;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Predicate;
@@ -22,6 +19,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
 /**
  * @author fabrizio
@@ -33,48 +33,8 @@ public class PlayerParserRouteBuilder extends RouteBuilder
 	
 	private Logger logger = LoggerFactory.getLogger(PlayerParserRouteBuilder.class); 
 	
-	public static FieldParam[] PLAYER_FIELDS = new PlayerFields[] {
-		new PlayerFields("PlayerId", "playerId")
-		, new PlayerFields("First name", "name")
-		, new PlayerFields("Last name", "surname")
-		, new PlayerFields("Nationality", "nationality")
-		, new PlayerFields("Date of birth", "birthDate")
-		, new PlayerFields("Country of birth", "birthCountry")
-		, new PlayerFields("Place of birth", "birthPlace")
-		, new PlayerFields("Position", "position")
-		, new PlayerFields("Height", "height")
-		, new PlayerFields("Weight", "weight")
-		, new PlayerFields("Foot", "foot")
-		, new PlayerFields("Picture URL", "pictureUrl")
-		, new PlayerFields("Picture", "picture")
-	};
-	
 	public static String PLAYER = "player";
-	
 	private static String PLAYER_ELEMENT = "playerElement";
-	
-	private static class PlayerFields implements FieldParam
-	{
-		private PlayerFields(String fieldPageKey, String fieldName)
-		{
-			this.fieldName = fieldName;
-			this.fieldPageKey = fieldPageKey;
-		}
-		
-		private String fieldName;
-		
-		private String fieldPageKey;
-
-		public String getFieldName() 
-		{
-			return fieldName;
-		}
-
-		public String getFieldPageKey() 
-		{
-			return fieldPageKey;
-		}
-	}
 	
 	Predicate playerNotFound = header(GetElementsProcessor.ELEMENTS_NOT_FOUND_KEY).isEqualTo(true);
 	
@@ -82,6 +42,7 @@ public class PlayerParserRouteBuilder extends RouteBuilder
 	public void configure() throws Exception 
 	{
 		from(PARSE_PLAYER_URI)
+		.routeId(PlayerParserRouteBuilder.class.getSimpleName())
 		.process(new Processor() 
 		{
 			public void process(Exchange exchange) throws Exception 
@@ -90,8 +51,10 @@ public class PlayerParserRouteBuilder extends RouteBuilder
 				
 				logger.info("Parse player "+playerId);
 				
-				Map<String, Object> player = new HashMap<String, Object>();
-				player.put(PLAYER_FIELDS[0].getFieldName(), playerId);
+//				Map<String, Object> player = new HashMap<String, Object>();
+//				JSONObject player = new JSONObject();
+				DBObject player = new BasicDBObject();
+				player.put(PlayerBean.PLAYER_FIELDS[0].getFieldName(), playerId);
 				exchange.setProperty(PLAYER, player);
 				
 				exchange.getIn().setBody(ParserConstants.SW_SITE+"/players/1/"+playerId);
@@ -146,7 +109,7 @@ public class PlayerParserRouteBuilder extends RouteBuilder
 						&& !element.children().isEmpty())
 				{
 					exchange.getIn().setBody(element.children());
-					exchange.getIn().setHeader(SetFieldsProcessor.FIELDS, PLAYER_FIELDS);
+					exchange.getIn().setHeader(SetFieldsProcessor.FIELDS, PlayerBean.PLAYER_FIELDS);
 					exchange.getIn().setHeader(SetFieldsProcessor.PROPERTY_KEY, PLAYER);
 				}
 			}
@@ -175,9 +138,10 @@ public class PlayerParserRouteBuilder extends RouteBuilder
 				Element img = exchange.getIn().getBody(Element.class);
 				if(img != null)
 				{
-					@SuppressWarnings("unchecked")
-					Map<String,Object> playerMap = exchange.getProperty(PLAYER, Map.class);
-					playerMap.put(PLAYER_FIELDS[12].getFieldName(), ParserUtil.getBytesFromImage(img.attr(ParserConstants.SRC)));
+//					@SuppressWarnings("unchecked")
+//					DBObject player = exchange.getProperty(PLAYER, DBObject.class);
+					// TODO Save picture on file
+//					playerMap.put(PlayerBean.PLAYER_FIELDS[12].getFieldName(), ParserUtil.getBytesFromImage(img.attr(ParserConstants.SRC)));
 //					p.setPictureUrl(img.attr(SWConstants.SRC));
 				}
 			}
@@ -187,9 +151,7 @@ public class PlayerParserRouteBuilder extends RouteBuilder
 			public void process(Exchange exchange) throws Exception 
 			{
 				exchange.getIn().setBody(exchange.getProperty(PLAYER));
-				exchange.getIn().setHeader(UpsertRouteBuilder.BEAN_NAME_KEY, PlayerBean.class.getSimpleName());
-				
-				logger.info("Parse player EXIT : "+exchange.getProperty(PLAYER));
+				exchange.getIn().setHeader(UpsertBean.META_BEAN_NAME_KEY, BeanType.PLAYER);
 			}
 		})
 		.to(UpsertRouteBuilder.UPSERT_URI)
