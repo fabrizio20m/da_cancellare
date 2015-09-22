@@ -4,6 +4,7 @@
 package it.stats.batch.camel;
 
 import it.stats.batch.camel.bean.PlayerBean;
+import it.stats.batch.camel.mondb.MDBSavePlayerRouteBuilder;
 import it.stats.batch.camel.processor.GetChildElementProcessor;
 import it.stats.batch.camel.processor.GetElementsProcessor;
 import it.stats.batch.camel.processor.SetFieldsProcessor;
@@ -49,8 +50,6 @@ public class PlayerParserRouteBuilder extends RouteBuilder
 				
 				logger.info("Parse player "+playerId);
 				
-//				Map<String, Object> player = new HashMap<String, Object>();
-//				JSONObject player = new JSONObject();
 				DBObject player = new BasicDBObject();
 				player.put(PlayerBean.PLAYER_FIELDS[0].getFieldName(), playerId);
 				exchange.setProperty(PLAYER, player);
@@ -149,9 +148,10 @@ public class PlayerParserRouteBuilder extends RouteBuilder
 			public void process(Exchange exchange) throws Exception 
 			{
 				exchange.getIn().setBody(exchange.getProperty(PLAYER));
+				exchange.getIn().setHeader(SaveRouteBuilder.SAVE_ENDPOINT_KEY, MDBSavePlayerRouteBuilder.SAVE_PLAYER_URI);
 			}
 		})
-		.to(UpsertRouteBuilder.UPSERT_URI)
+		.to(SaveRouteBuilder.UPSERT_URI)
 		.end();
 	}
 }

@@ -12,15 +12,15 @@ import org.apache.camel.builder.RouteBuilder;
  * @author A90C
  *
  */
-public class UpsertErrorsRouteBuilder extends RouteBuilder 
+public class SaveErrorsRouteBuilder extends RouteBuilder 
 {
-	public static String UPSERT_ERRORS_URI = "seda:upsertErrors";
+	public static String UPSERT_ERRORS_URI = "seda:saveErrors";
 	
 	@Override
 	public void configure() throws Exception 
 	{
 		from(UPSERT_ERRORS_URI)
-		.routeId(UpsertErrorsRouteBuilder.class.getSimpleName())
+		.routeId(SaveErrorsRouteBuilder.class.getSimpleName())
 		.log(LoggingLevel.ERROR, UPSERT_ERRORS_URI+"UPSERT Body\t${body}")
 		.log(LoggingLevel.ERROR, UPSERT_ERRORS_URI+"UPSERT Exception\t${exception}")
 		.to("file:"+ConfigurationConstants.UPSERT_ERROR_FOLDER+"?readLock=fileLock")

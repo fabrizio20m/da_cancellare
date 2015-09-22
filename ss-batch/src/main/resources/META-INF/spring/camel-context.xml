@@ -26,10 +26,11 @@
 		<propertyPlaceholder id="properties" location="classpath:properties/deployment/${ENV_VAR}-application.properties" />
 	
 		<routeBuilder ref="GetDocumentRouteBuilder"/>
-		<routeBuilder ref="UpsertRouteBuilder"/>
+		<routeBuilder ref="SaveRouteBuilder"/>
+		<routeBuilder ref="SaveErrorsRouteBuilder"/>
+
 		<routeBuilder ref="PlayerParserRouteBuilder"/>
 		<routeBuilder ref="DispatchPlayerParserRouteBuilder"/>
-		<routeBuilder ref="UpsertErrorsRouteBuilder"/>
 		<routeBuilder ref="MDBSavePlayerRouteBuilder"/>
 		
 		<dataFormats>
@@ -41,10 +42,10 @@
 <!-- 	<bean id="gson" class="org.apache.camel.component.gson.GsonDataFormat"/> -->
 	
 	<bean id="GetDocumentRouteBuilder" class="it.stats.batch.camel.GetDocumentRouteBuilder" />
-	<bean id="UpsertRouteBuilder" class="it.stats.batch.camel.UpsertRouteBuilder" />
+	<bean id="SaveRouteBuilder" class="it.stats.batch.camel.SaveRouteBuilder" />
 	<bean id="PlayerParserRouteBuilder" class="it.stats.batch.camel.PlayerParserRouteBuilder" />
 	<bean id="DispatchPlayerParserRouteBuilder" class="it.stats.batch.camel.DispatchPlayerParserRouteBuilder" />
-	<bean id="UpsertErrorsRouteBuilder" class="it.stats.batch.camel.UpsertErrorsRouteBuilder" />
+	<bean id="SaveErrorsRouteBuilder" class="it.stats.batch.camel.SaveErrorsRouteBuilder" />
 	<bean id="MDBSavePlayerRouteBuilder" class="it.stats.batch.camel.mondb.MDBSavePlayerRouteBuilder" />
 	
 	<bean id="GetElementsProcessor" class="it.stats.batch.camel.processor.GetElementsProcessor" />

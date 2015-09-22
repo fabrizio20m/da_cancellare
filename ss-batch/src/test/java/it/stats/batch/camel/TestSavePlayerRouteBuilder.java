@@ -24,7 +24,7 @@ public class TestSavePlayerRouteBuilder extends TestBaseRouteBuilder
 	@Override
 	protected Object getBody() 
 	{
-		return "{ _id: 1, name: \"Fabrizio\", surname: \"Mastropaolo\" }";
+		return "{ _id: 0, name: \"Fabrizio\", surname: \"Mastropaolo\" }";
 	}
 
 	@Override
